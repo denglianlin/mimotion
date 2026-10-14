@@ -2,8 +2,13 @@ name: 刷步数
 
 on:
   schedule:
-    - cron: '18 6,8,10 * * *'
+    - cron: '28 6,8,10 * * *'
   workflow_dispatch:
+
+# 防止两轮任务重叠运行造成 token 文件冲突，后一轮排队等前一轮跑完
+concurrency:
+  group: mimotion-persist
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -39,5 +44,7 @@ jobs:
           git config user.email github-actions@users.noreply.github.com
           git add .
           git commit -m "persist tokens trigger by ${{ github.event_name }}" || echo "nothing to commit"
-          git pull --rebase origin master
+          # encrypted_tokens.data 是二进制文件，两边同时改会冲突；
+          # 本地是刚生成的最新 token，冲突时以本地为准自动解决
+          git pull --rebase -X theirs origin master
           git push origin master
