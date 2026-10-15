@@ -2,7 +2,7 @@ name: 刷步数
 
 on:
   schedule:
-    - cron: '15 6,8,10 * * *'
+    - cron: '39 6,8,10 * * *'
   workflow_dispatch:
 
 # 防止两轮任务重叠运行造成 token 文件冲突，后一轮排队等前一轮跑完
