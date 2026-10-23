@@ -13,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
-      - name: 随机延迟防检测
-        run: |
-          DELAY=$(( RANDOM % 111 ))
-          echo "本轮随机延迟 ${DELAY} 分钟后执行"
-          sleep $(( DELAY * 60 ))
       - name: Checkout codes
         uses: actions/checkout@v5
         with:
